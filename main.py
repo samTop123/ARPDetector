@@ -4,11 +4,7 @@ import time                           # For adding delay in the loop
 import sys                            # For exiting the program in case of error or interruption
 import keyboard                       # To detect if the user presses 'q' to quit the loop
 
-def get_arp_table(ip_range):
-    """
-    Scans the network and retrieves the ARP table (IP to MAC mapping).
-    Sends an ARP request to the given IP range and collects responses.
-    """
+def create_packet(ip_range):
     try:
         # Create an ARP request packet for the given IP range
         arp_request = scapy.ARP(pdst=ip_range)
@@ -19,6 +15,22 @@ def get_arp_table(ip_range):
         # Combine Ethernet frame and ARP request into a complete packet
         packet = ether_frame / arp_request
 
+        return packet
+    except Exception as e:
+        # Handle any exceptions while sending packets
+        print(f"Error sending ARP request : {e}")
+        sys.exit(1) 
+
+def get_arp_table(ip_range):
+    """
+    Scans the network and retrieves the ARP table (IP to MAC mapping).
+    Sends an ARP request to the given IP range and collects responses.
+    """
+
+    # Combine Ethernet frame and ARP request into a complete packet
+    packet = create_packet(ip_range)
+
+    try:
         # Send the packet and wait for responses (srp = send and receive at Layer 2)
         answered, _ = scapy.srp(packet, timeout=2, verbose=0)
     except Exception as e:

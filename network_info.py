@@ -1,4 +1,4 @@
-import netifaces
+import netifaces # pip install netifaces
 import ipaddress
 
 def get_network_range() -> str:
