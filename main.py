@@ -1,7 +1,8 @@
 import scapy.all as scapy
-import constants
+import network_info
 import time
 import sys
+import keyboard
 
 def get_arp_table(ip_range):
     """Scans the network and retrieves the ARP table."""
@@ -46,14 +47,15 @@ def detect_arp_spoofing(arp_table):
 
             print(f"Spoofed MAC: {mac}")
             print(f"Victim: IP {victim_ip}, MAC {mac}")
-            for attacker_ip in attacker_ips:
-                print(f"Attacker: IP {attacker_ip}, MAC {mac}")
+
+            for attacker_ip in attacker_ips: print(f"Attacker: IP {attacker_ip}, MAC {mac}")
+            
             print("-" * 50)
     else:
         print("No ARP Spoofing Detected.")
 
 if __name__ == "__main__":
-    network_range = constants.network_range
+    network_range = network_info.get_network_range()
     first_table = get_arp_table(network_range)
     print(first_table)
 
@@ -61,6 +63,8 @@ if __name__ == "__main__":
         while True: 
             detect_arp_spoofing(get_arp_table(network_range))
             time.sleep(0.03)
+
+            if keyboard.is_pressed('q'): break
     except KeyboardInterrupt:
         print("\nScript stopped by user. Exiting...")
         sys.exit(0)
