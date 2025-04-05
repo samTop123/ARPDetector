@@ -52,11 +52,11 @@ def detect_arp_spoofing(arp_table):
     else:
         print("No ARP Spoofing Detected.")
 
-network_range = constants.network_range
-first_table = get_arp_table(network_range)
-print(first_table)
-
 if __name__ == "__main__":
+    network_range = constants.network_range
+    first_table = get_arp_table(network_range)
+    print(first_table)
+
     try:
         while True: 
             detect_arp_spoofing(get_arp_table(network_range))
