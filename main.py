@@ -90,7 +90,6 @@ if __name__ == "__main__":
             # Scan the network and check for spoofing
             detect_arp_spoofing(get_arp_table(network_range))
 
-            # Wait for a short interval before the next scan
             time.sleep(0.03)
 
             if keyboard.is_pressed('q'):
